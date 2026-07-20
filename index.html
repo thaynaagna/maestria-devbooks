@@ -145,7 +145,61 @@ nav.stuck {
   transition: background .2s, transform .15s;
 }
 .nav-cta:hover { background: var(--ink2); transform: translateY(-1px); }
-@media(max-width:768px){.nav-links{display:none}nav{padding:0 24px}}
+
+/* Botão hambúrguer (mobile) */
+.nav-burger {
+  display: none;
+  width: 40px; height: 40px;
+  align-items: center; justify-content: center;
+  background: transparent; border: 1px solid var(--rule-l);
+  border-radius: 8px; cursor: pointer;
+  flex-direction: column; gap: 4px;
+}
+.nav-burger span {
+  display: block; width: 18px; height: 2px;
+  background: var(--ink); border-radius: 2px;
+  transition: transform .25s var(--ease-out-expo), opacity .2s;
+}
+.nav-burger.open span:nth-child(1){ transform: translateY(6px) rotate(45deg); }
+.nav-burger.open span:nth-child(2){ opacity: 0; }
+.nav-burger.open span:nth-child(3){ transform: translateY(-6px) rotate(-45deg); }
+
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .nav-burger{display:flex}
+}
+
+/* Menu mobile (dropdown) */
+.mobile-menu {
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule-l);
+  box-shadow: 0 12px 32px rgba(10,10,15,.1);
+  padding: 8px 20px 20px;
+  z-index: 99;
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  display: block;
+  padding: 14px 4px;
+  font-size: 15px; font-weight: 500;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule-l);
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu .nav-cta {
+  display: inline-flex;
+  margin-top: 10px;
+  text-align: center;
+  justify-content: center;
+}
 
 /* ─────────────────────────────────────────────
    SEÇÃO PRINCIPAL (HERO)
@@ -984,7 +1038,17 @@ footer { background: var(--ink); padding: 64px 48px 40px; }
     <li><a href="#faq">FAQ</a></li>
   </ul>
   <a href="#ebooks" class="nav-cta">Começar agora →</a>
+  <button class="nav-burger" id="nav-burger" aria-label="Abrir menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#ebooks">E-books</a>
+  <a href="#beneficios">Benefícios</a>
+  <a href="#depoimentos">Depoimentos</a>
+  <a href="#faq">FAQ</a>
+  <a href="#ebooks" class="nav-cta">Começar agora →</a>
+</div>
 
 <!-- ── SEÇÃO PRINCIPAL (HERO) ── -->
 <section class="hero">
@@ -1490,6 +1554,22 @@ const nav = document.getElementById('main-nav');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('stuck', window.scrollY > 30);
 }, { passive: true });
+
+/* Menu mobile (hambúrguer) */
+const burger = document.getElementById('nav-burger');
+const mobileMenu = document.getElementById('mobile-menu');
+burger.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('open');
+  burger.classList.toggle('open', isOpen);
+  burger.setAttribute('aria-expanded', isOpen);
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    burger.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
+  });
+});
 
 /* cursor personalizado */
 const cur = document.getElementById('cursor');
