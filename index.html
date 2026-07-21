@@ -35,7 +35,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 16px; }
+html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; max-width: 100%; }
 body {
   background: var(--paper);
   color: var(--ink);
@@ -220,15 +220,7 @@ nav.stuck {
   .hero-visual-wrap { order: -1; }
 }
 
-/* Linha Diagonal */
-.hero::before {
-  content: '';
-  position: absolute;
-  width: 1px; top: 0; bottom: 0;
-  right: 50%;
-  background: linear-gradient(to bottom, transparent, var(--rule-l) 30%, var(--rule-l) 70%, transparent);
-  pointer-events: none;
-}
+/* Linha Diagonal removida a pedido do usuário */
 @media(max-width:1024px){.hero::before{display:none}}
 
 /* Tag Flutuante */
@@ -370,7 +362,13 @@ nav.stuck {
   display: flex; gap: 16px;
   font-family: var(--f-mono); font-size: 13px; line-height: 2;
 }
-.ln { color: rgba(255,255,255,.15); min-width: 18px; text-align: right; user-select: none; font-size: 11px; }
+.editor-line .code { min-width: 0; flex: 1; white-space: nowrap; }
+.ln { color: rgba(255,255,255,.15); min-width: 18px; text-align: right; user-select: none; font-size: 11px; flex-shrink: 0; }
+.editor-body { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.editor-body::-webkit-scrollbar { display: none; }
+@media(max-width:480px){
+  .editor-line { font-size: 11.5px; }
+}
 .ck { color: #ff79c6; } /* Palavra-chave */
 .cv { color: #ff9580; } /* Variável */
 .cs { color: #a8ff78; } /* string */
@@ -438,6 +436,12 @@ nav.stuck {
 }
 .hf-1 { top: -16px; right: -16px; animation-delay: .6s; }
 .hf-2 { bottom: -14px; left: -12px; animation-delay: 1.4s; }
+@media(max-width:480px){
+  .hero-float { padding: 10px 14px; }
+  .hf-1 { top: -10px; right: 4px; }
+  .hf-2 { bottom: -10px; left: 4px; }
+  .hf-value { font-size: 15px; }
+}
 .hf-label { font-size: 10px; font-weight: 600; color: var(--mute); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px; }
 .hf-value { font-family: var(--f-display); font-size: 18px; font-weight: 700; color: var(--ink); letter-spacing: -.3px; }
 .hf-sub { font-size: 11px; color: var(--mute); margin-top: 2px; }
@@ -1093,13 +1097,13 @@ footer { background: var(--ink); padding: 64px 48px 40px; }
         <div class="card-filename">fullstack-mastery.pdf · devbooks.com.br</div>
       </div>
       <div class="editor-body">
-        <div class="editor-line"><span class="ln">1</span><span class="co">// DevBooks · FullStack Mastery</span></div>
-        <div class="editor-line"><span class="ln">2</span><span class="ck">import</span>&nbsp;<span class="cp">{</span>&nbsp;<span class="cv">React</span><span class="cp">,</span>&nbsp;<span class="cv">Node</span><span class="cp">,</span>&nbsp;<span class="cv">Deploy</span>&nbsp;<span class="cp">}</span>&nbsp;<span class="ck">from</span>&nbsp;<span class="cs">'devbooks'</span></div>
-        <div class="editor-line"><span class="ln">3</span></div>
-        <div class="editor-line"><span class="ln">4</span><span class="ck">const</span>&nbsp;<span class="cf">evolve</span>&nbsp;<span class="cp">=</span>&nbsp;<span class="cv">dev</span>&nbsp;<span class="cp">=&gt;</span>&nbsp;<span class="cp">({</span></div>
-        <div class="editor-line"><span class="ln">5</span>&nbsp;&nbsp;<span class="cp">skills</span><span class="cp">:</span>&nbsp;<span class="cv">dev</span><span class="cp">.</span><span class="cf">learn</span><span class="cp">(</span><span class="cs">'fullstack'</span><span class="cp">),</span></div>
-        <div class="editor-line"><span class="ln">6</span>&nbsp;&nbsp;<span class="cp">salary</span><span class="cp">:</span>&nbsp;<span class="cn">dev.salary</span>&nbsp;<span class="cp">*</span>&nbsp;<span class="cn">2</span><span class="cp">,</span>&nbsp;<span class="co">// ✓</span></div>
-        <div class="editor-line"><span class="ln">7</span><span class="cp">})</span></div>
+        <div class="editor-line"><span class="ln">1</span><span class="code"><span class="co">// DevBooks · FullStack Mastery</span></span></div>
+        <div class="editor-line"><span class="ln">2</span><span class="code"><span class="ck">import</span>&nbsp;<span class="cp">{</span>&nbsp;<span class="cv">React</span><span class="cp">,</span>&nbsp;<span class="cv">Node</span><span class="cp">,</span>&nbsp;<span class="cv">Deploy</span>&nbsp;<span class="cp">}</span>&nbsp;<span class="ck">from</span>&nbsp;<span class="cs">'devbooks'</span></span></div>
+        <div class="editor-line"><span class="ln">3</span><span class="code"></span></div>
+        <div class="editor-line"><span class="ln">4</span><span class="code"><span class="ck">const</span>&nbsp;<span class="cf">evolve</span>&nbsp;<span class="cp">=</span>&nbsp;<span class="cv">dev</span>&nbsp;<span class="cp">=&gt;</span>&nbsp;<span class="cp">({</span></span></div>
+        <div class="editor-line"><span class="ln">5</span><span class="code">&nbsp;&nbsp;<span class="cp">skills</span><span class="cp">:</span>&nbsp;<span class="cv">dev</span><span class="cp">.</span><span class="cf">learn</span><span class="cp">(</span><span class="cs">'fullstack'</span><span class="cp">),</span></span></div>
+        <div class="editor-line"><span class="ln">6</span><span class="code">&nbsp;&nbsp;<span class="cp">salary</span><span class="cp">:</span>&nbsp;<span class="cn">dev.salary</span>&nbsp;<span class="cp">*</span>&nbsp;<span class="cn">2</span><span class="cp">,</span>&nbsp;<span class="co">// ✓</span></span></div>
+        <div class="editor-line"><span class="ln">7</span><span class="code"><span class="cp">})</span></span></div>
       </div>
       <div class="card-divider"></div>
       <div class="skills-track">
